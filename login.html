@@ -10,15 +10,14 @@
   <script src="https://www.gstatic.com/firebasejs/5.9.4/firebase.js"></script>
   <!--<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3n54OXCbbKXpoaZ7S5xSImEkqNE_KV_A"></script>-->
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  <script type="text/javascript" src="js/menuButtons.js"></script>
+  <script type="text/javascript" src="js/login.js"></script>
 </head>
 
-<body onload="initializeButtons()">
+<body onload="initializeFirebase()">
   <form id="loginForm">
+    <input type="text" name="username" id="username"><br>
+    <!--<input type="submit" name="submit" value="Login">-->
     <button type="submit">Login</button>
-  </form>
-  <form id="newUserForm">
-    <button type="submit">New User</button>
   </form>
 
   <br>
