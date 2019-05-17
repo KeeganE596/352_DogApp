@@ -9,6 +9,8 @@ var map;
 var databaseRef;
 var selected;
 
+var drawRoute = false;
+
 function initializeMap(position) {
   // Get current position
   var latVar = position.coords.latitude;
@@ -48,6 +50,37 @@ function initializeMap(position) {
   createKMLWalks();
   initializeFirebase();
   getPlaces(latVar, lonVar);
+  //document.getElementById('drawButton').addEventListener('click', drawRoute);
+
+  //Drawing route stuff
+  var drawingTool =   new google.maps.drawing.DrawingManager();
+
+  var drawingManager = new google.maps.drawing.DrawingManager({
+    drawingMode: google.maps.drawing.OverlayType.POLYLINE,
+    polylineOptions: {strokeColor: "#02BC74",
+                     strokeWeight: 2},
+    drawingControl: true,
+    drawingControlOptions: {
+    position: google.maps.ControlPosition.BOTTOM_CENTER,
+    drawingModes: ['polyline']
+    },
+  });
+  drawingManager.setMap(map);
+
+  var Lines = [];
+      google.maps.event.addDomListener(drawingManager, 'polylinecomplete', function (polyline) {
+      Lines.push(polyline);
+  });
+
+  google.maps.event.addDomListener(savebutton, 'click', function () {
+      document.getElementById("savedata").value = "";
+      for (var i = 0; i < Lines.length; i++) {
+          //document.getElementById("savedata").value += "Path";
+          document.getElementById("savedata").value +=
+           Lines[i].getPath().getArray().toString();
+          document.getElementById("savedata").value += "";
+      }
+  });
 }
 
 function getPlaces(lat, lng) {
@@ -208,3 +241,15 @@ function addGeo() {
   databaseRef2.child('Maupuia Walkway (Old Prison Rd)').set(parsed);
   //console.log("added geo stuff");
 }
+
+function drawRoute() {
+  drawRoute = true;
+}
+
+function loadPolygons(map ){
+  var data = JSON.parse(Window.localStorage.getItem('Dog_Exercise__Restriction_Layer'));
+  console.log(data);
+
+  map.data.addGeoJson(data);
+}
+

@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="css/style.css">
   <!--Javascript links-->
   <script src="https://www.gstatic.com/firebasejs/5.9.4/firebase.js"></script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3n54OXCbbKXpoaZ7S5xSImEkqNE_KV_A"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3n54OXCbbKXpoaZ7S5xSImEkqNE_KV_A&libraries=drawing&callback"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script type="text/javascript" src="js/map.js"></script>
 </head>
@@ -38,6 +38,16 @@
     <br>
     <pre id="printDog" class="text dog">Is Dog Friendly:</pre>
   </div>
+
+  <form id="drawButton">
+    <button type="button">Draw</button>
+  </form>
+
+  <div class = 'savebutton'>    
+    <button id="savebutton" style="position: relative; background-color: #67c8a6; border: none;font-weight: bold; color: #f8db7e;">SAVE PATH</button>
+    <div class = 'save-path'>
+    <textarea id="savedata" rows="1" cols="30" >
+        </textarea></div></div>
   
 
 </body>
