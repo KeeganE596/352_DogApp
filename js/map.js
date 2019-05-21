@@ -54,7 +54,44 @@ function initializeMap(position) {
 
   //Drawing route stuff
   var drawingTool =   new google.maps.drawing.DrawingManager();
+      var drawingManager = new google.maps.drawing.DrawingManager({
+          drawingMode: google.maps.drawing.OverlayType.MARKER,
+          drawingControl: true,
+          markerOptions: {icon: 'images/drop.png'},
+          drawingControlOptions: {
+          position: google.maps.ControlPosition.BOTTOM_CENTER,
+          drawingModes: ['marker']
+          },
+        });
 
+        drawingManager.setMap(map);
+
+        var drawingManager = new google.maps.drawing.DrawingManager({
+          drawingMode: google.maps.drawing.OverlayType.MARKER,
+          drawingControl: true,
+          markerOptions: {icon: 'images/hazard.png'
+                         },
+          drawingControlOptions: {
+          position: google.maps.ControlPosition.BOTTOM_CENTER,
+          drawingModes: ['marker']
+          },
+            
+        });
+    
+        drawingManager.setMap(map);
+    
+        var drawingManager = new google.maps.drawing.DrawingManager({
+          drawingMode: google.maps.drawing.OverlayType.MARKER,
+          drawingControl: true,
+          markerOptions: {icon: 'images/bin.png'
+                         },
+          drawingControlOptions: {
+          position: google.maps.ControlPosition.BOTTOM_CENTER,
+          drawingModes: ['marker']
+          },
+        });
+            drawingManager.setMap(map);
+    
   var drawingManager = new google.maps.drawing.DrawingManager({
     drawingMode: google.maps.drawing.OverlayType.POLYLINE,
     polylineOptions: {strokeColor: "#02BC74",
@@ -65,6 +102,7 @@ function initializeMap(position) {
     drawingModes: ['polyline']
     },
   });
+    
   drawingManager.setMap(map);
 
   var Lines = [];
