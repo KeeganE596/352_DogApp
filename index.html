@@ -7,23 +7,67 @@
   <!--CSS-->
   <link rel="stylesheet" href="css/style.css">
   <!--Javascript links-->
-  <script src="https://www.gstatic.com/firebasejs/5.9.4/firebase.js"></script>
-  <!--<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3n54OXCbbKXpoaZ7S5xSImEkqNE_KV_A"></script>-->
+  <script src="https://www.gstatic.com/firebasejs/5.9.4/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.9.4/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.9.4/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.9.4/firebase-database.js"></script>
+  <script>
+    var config = {
+      apiKey: "AIzaSyDzTMFaxp5P0J4BHwRCNhuGtI-DoZXVbKk",
+      authDomain: "dogapp-f8549.firebaseapp.com",
+      databaseURL: "https://dogapp-f8549.firebaseio.com",
+      projectId: "dogapp-f8549",
+      storageBucket: "dogapp-f8549.appspot.com",
+      messagingSenderId: "250707991740",
+      appId: "1:250707991740:web:586111734a49a755"
+    };
+    firebase.initializeApp(config);
+
+    //make references
+    const dbParks = firebase.database().ref('parks');
+    const dbWalks = firebase.database().ref('walks');
+    const auth = firebase.auth();
+    const fs = firebase.firestore();
+  </script>
+
+  
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3n54OXCbbKXpoaZ7S5xSImEkqNE_KV_A&libraries=drawing&callback"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  <script type="text/javascript" src="js/menuButtons.js"></script>
+  <script type="text/javascript" src="js/main.js"></script>
 </head>
 
-<body onload="initializeButtons()">
-  <form id="loginForm">
-    <button type="submit">Login</button>
+<body onload="getLocation()">
+
+  <div class="mapBlock"> <div id="map"></div> </div> 
+
+  <br><br>
+
+  <form id="userForm" class="nameForm">
+    <input type="text" name="name" placeholder="Change Name" id="name">
+    <button type="submit">Submit</button>
   </form>
-  <form id="newUserForm">
-    <button type="submit">New User</button>
+  <form id="dogForm" class="nameForm">
+    <input type="text" name="dogFriendly" placeholder="Dog Friendly?" id="dogFriendly">
+    <button type="submit">Submit</button>
   </form>
 
-  <br>
+  <br><br>
 
-  <div id="loginOutput">not logged in yet</div>
+  <div class="markerBox">
+    <pre id="printName" class="text">Marker Name</pre>
+    <pre id="printAddy" class="text">Address</pre>
+    <pre id="printLocLat" class="text lng">Latitude</pre>
+    <pre id="printLocLng" class="text lng">Longitude</pre>
+    <br>
+    <pre id="printDog" class="text dog">Is Dog Friendly:</pre>
+  </div>
+
+  <div class = 'savebutton'>    
+    <button id="savebutton" style="position: relative; background-color: #67c8a6; border: none;font-weight: bold; color: #f8db7e;">SAVE PATH</button>
+    <div class = 'save-path'>
+    <textarea id="savedata" rows="1" cols="30" >
+        </textarea></div></div>
+  
 
 </body>
 
