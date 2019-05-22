@@ -51,7 +51,7 @@ function initializeMap(position) {
   //Map drawing initialisation
   //draw water marker
   var drawingManager = new google.maps.drawing.DrawingManager({
-    drawingMode: google.maps.drawing.OverlayType.MARKER,
+    drawingMode: google.maps.drawing.OverlayType.null,
     drawingControl: true,
     markerOptions: {icon: 'images/drop.png'},
     drawingControlOptions: {
@@ -62,7 +62,7 @@ function initializeMap(position) {
   drawingManager.setMap(map);
   //draw hazard marker
   var drawingManager = new google.maps.drawing.DrawingManager({
-    drawingMode: google.maps.drawing.OverlayType.MARKER,
+    drawingMode: google.maps.drawing.OverlayType.null,
     drawingControl: true,
     markerOptions: {icon: 'images/hazard.png'},
     drawingControlOptions: {
@@ -73,7 +73,7 @@ function initializeMap(position) {
   drawingManager.setMap(map);
   //draw bin marker
   var drawingManager = new google.maps.drawing.DrawingManager({
-    drawingMode: google.maps.drawing.OverlayType.MARKER,
+    drawingMode: google.maps.drawing.OverlayType.null,
     drawingControl: true,
     markerOptions: {icon: 'images/bin.png'},
     drawingControlOptions: {
@@ -84,7 +84,7 @@ function initializeMap(position) {
   drawingManager.setMap(map);
   //draw route (polyline)
   var drawingManager = new google.maps.drawing.DrawingManager({
-    drawingMode: google.maps.drawing.OverlayType.POLYLINE,
+    drawingMode: google.maps.drawing.OverlayType.null,
     polylineOptions: {strokeColor: "#02BC74", strokeWeight: 2},
     drawingControl: true,
     drawingControlOptions: {
@@ -94,22 +94,26 @@ function initializeMap(position) {
   }); 
   drawingManager.setMap(map);
 
-  var Lines = [];
-    google.maps.event.addDomListener(drawingManager, 'polylinecomplete', function (polyline) {
-    Lines.push(polyline);
+  var routeLines = [];
+  google.maps.event.addDomListener(drawingManager, 'polylinecomplete', function (polyline) {
+    routeLines.push(polyline);
   });
 
-  google.maps.event.addDomListener(savebutton, 'click', function () {
-    document.getElementById("savedata").value = "";
-    for (var i = 0; i < Lines.length; i++) {
-        //document.getElementById("savedata").value += "Path";
-        document.getElementById("savedata").value +=
-         Lines[i].getPath().getArray().toString();
-        document.getElementById("savedata").value += "";
+  const saveButton = document.getElementById('saveRouteForm');
+  saveButton.addEventListener('submit', (e) => {
+    e.preventDefault();
 
-        //In here we could send each line to a new coord in firebase, making a ne w route at the start
+    const name = saveButton['routeName'].value;
+    var newWalkRef = dbWalks.child(name);
+
+    for(var i = 0; i < routeLines[0].getPath().getLength(); i++) {
+      var loc = routeLines[0].getPath().getAt(i).toUrlValue(9);
+      console.log(loc);
+      newWalkRef.child(i).set({loc});
     }
+    routeLines = [];
   });
+  drawUserWalks();
 }
 
 function getPlaces(lat, lng) {
@@ -156,6 +160,39 @@ function createMarkers(data) {
     }
     addMarkerListener(marker);
   }
+}
+
+function drawUserWalks() {
+  
+
+  dbWalks.on('value', function(snapshot) {
+    var walkArray = new Array();
+
+    for(var i=0; i<snapshot.val().hello.length; i++){
+      //console.log(snapshot.val().hello[i].loc);
+      walkArray.push(new google.maps.LatLng(snapshot.val().hello[i].loc));
+      //console.log(walkArray[i]);
+    }
+
+    //console.log(walkArray.length);
+    //for(var i=0; i<walkArray.length; i++){
+    //  console.log(walkArray[i]);
+    //}
+    /*var walkArray = [
+      {lat: -41.275542, lng: 174.73142},
+      {lat: -41.282444, lng: 174.730133},
+      {lat: -41.290635, lng: 174.745239},
+      {lat: -41.279735, lng: 174.751247}
+    ];*/
+
+    var flightPath = new google.maps.Polyline({
+      path:walkArray,
+      strokeColor:"#f442e5",
+      strokeOpacity:0.8,
+      strokeWeight:2
+    });
+    flightPath.setMap(map);
+  });
 }
 
 var addMarkerListener = function(marker) {
