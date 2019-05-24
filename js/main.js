@@ -49,50 +49,115 @@ function initializeMap(position) {
   getPlaces(latVar, lonVar);
 
   //Map drawing initialisation
-  //draw water marker
+  //draw water markers
   var drawingManager = new google.maps.drawing.DrawingManager({
-    drawingMode: google.maps.drawing.OverlayType.null,
-    drawingControl: true,
-    markerOptions: {icon: 'images/drop.png'},
-    drawingControlOptions: {
-      position: google.maps.ControlPosition.BOTTOM_CENTER,
-      drawingModes: ['marker']
-    },
-  });
-  drawingManager.setMap(map);
-  //draw hazard marker
-  var drawingManager = new google.maps.drawing.DrawingManager({
-    drawingMode: google.maps.drawing.OverlayType.null,
-    drawingControl: true,
-    markerOptions: {icon: 'images/hazard.png'},
-    drawingControlOptions: {
-      position: google.maps.ControlPosition.BOTTOM_CENTER,
-      drawingModes: ['marker']
-    },
-  });
-  drawingManager.setMap(map);
-  //draw bin marker
-  var drawingManager = new google.maps.drawing.DrawingManager({
-    drawingMode: google.maps.drawing.OverlayType.null,
-    drawingControl: true,
-    markerOptions: {icon: 'images/bin.png'},
-    drawingControlOptions: {
-      position: google.maps.ControlPosition.BOTTOM_CENTER,
-      drawingModes: ['marker']
-    },
-  });
-  drawingManager.setMap(map);
-  //draw route (polyline)
-  var drawingManager = new google.maps.drawing.DrawingManager({
-    drawingMode: google.maps.drawing.OverlayType.null,
-    polylineOptions: {strokeColor: "#02BC74", strokeWeight: 2},
-    drawingControl: true,
-    drawingControlOptions: {
-      position: google.maps.ControlPosition.BOTTOM_CENTER,
-      drawingModes: ['polyline']
-    },
+    drawingControl: false
   }); 
   drawingManager.setMap(map);
+// drawingManager is now ready
+var marker_btn = document.createElement("button");
+marker_btn.innerHTML = "Water";
+
+// add handlers
+marker_btn.addEventListener("click", (function () {
+    // closure handles local toggle variables
+    var toggled = false;
+    var originalHTML = marker_btn.innerHTML;
+    return function (e) {
+        if (toggled) {
+            drawingManager.setDrawingMode(null);
+            e.target.innerHTML = originalHTML;
+        } else {
+            drawingManager.setDrawingMode(google.maps.drawing.OverlayType.MARKER);
+            drawingManager.setOptions({markerOptions:
+                                       {icon:'images/drop.png'}});
+            e.target.innerHTML = "Cancel";
+        }
+        toggled = !toggled;
+    }
+})());
+
+// add button to map controls
+map.controls[ google.maps.ControlPosition.BOTTOM_CENTER ].push( marker_btn );
+  //draw hazard marker
+var marker_btn = document.createElement("button");
+marker_btn.innerHTML = "Bin";
+
+// add handlers
+marker_btn.addEventListener("click", (function () {
+    // closure handles local toggle variables
+    var toggled = false;
+    var originalHTML = marker_btn.innerHTML;
+    return function (e) {
+        if (toggled) {
+            drawingManager.setDrawingMode(null);
+            e.target.innerHTML = originalHTML;
+        } else {
+            drawingManager.setDrawingMode(google.maps.drawing.OverlayType.MARKER);
+            drawingManager.setOptions({markerOptions:
+                                       {icon:'images/bin.png'}});
+            e.target.innerHTML = "Cancel";
+        }
+        toggled = !toggled;
+    }
+})());
+
+// add button to map controls
+map.controls[ google.maps.ControlPosition.BOTTOM_CENTER ].push( marker_btn );
+//draw bin marker
+var marker_btn = document.createElement("button");
+marker_btn.innerHTML = "Hazard";
+
+// add handlers
+marker_btn.addEventListener("click", (function () {
+    // closure handles local toggle variables
+    var toggled = false;
+    var originalHTML = marker_btn.innerHTML;
+    return function (e) {
+        if (toggled) {
+            drawingManager.setDrawingMode(null);
+            e.target.innerHTML = originalHTML;
+        } else {
+            drawingManager.setDrawingMode(google.maps.drawing.OverlayType.MARKER);
+            drawingManager.setOptions({markerOptions:
+                                       {icon:'images/hazard.png'}
+                                      });
+            e.target.innerHTML = "Cancel";
+        }
+        toggled = !toggled;
+    }
+})());
+
+// add button to map controls
+map.controls[ google.maps.ControlPosition.BOTTOM_CENTER ].push( marker_btn );
+//draw bin marker
+    
+    
+var marker_btn = document.createElement("button");
+marker_btn.innerHTML = "Path";
+
+  //draw route (polyline)
+    
+    marker_btn.addEventListener("click", (function () {
+    // closure handles local toggle variables
+    var toggled = false;
+    var originalHTML = marker_btn.innerHTML;
+    return function (e) {
+        if (toggled) {
+            drawingManager.setDrawingMode(null);
+            e.target.innerHTML = originalHTML;
+        } else {
+            drawingManager.setDrawingMode(google.maps.drawing.OverlayType.POLYLINE);
+            drawingManager.setOptions({polylineOptions:
+                                       {strokeColor: "#02BC74", strokeWeight: 2}});
+            e.target.innerHTML = "Cancel";
+        }
+        toggled = !toggled;
+    }
+})());
+
+// add button to map controls
+map.controls[ google.maps.ControlPosition.BOTTOM_CENTER ].push( marker_btn );
 
   var routeLines = [];
   google.maps.event.addDomListener(drawingManager, 'polylinecomplete', function (polyline) {
@@ -107,7 +172,7 @@ function initializeMap(position) {
     var newWalkRef = dbWalks.child(name);
 
     for(var i = 0; i < routeLines[0].getPath().getLength(); i++) {
-      var loc = routeLines[0].getPath().getAt(i).toUrlValue(9);
+      var loc = routeLines[0].getPath().getAt(i).toUrlValue(6);
       console.log(loc);
       newWalkRef.child(i).set({loc});
     }
@@ -163,36 +228,33 @@ function createMarkers(data) {
 }
 
 function drawUserWalks() {
-  
+  var routeArray = [];
 
   dbWalks.on('value', function(snapshot) {
-    var walkArray = new Array();
+    snapshot.forEach((child) => {
+      //console.log(child.val().loc.val());
 
-    for(var i=0; i<snapshot.val().hello.length; i++){
-      //console.log(snapshot.val().hello[i].loc);
-      walkArray.push(new google.maps.LatLng(snapshot.val().hello[i].loc));
-      //console.log(walkArray[i]);
-    }
+      var item = child.val();
+      item.key = child.key;
 
-    //console.log(walkArray.length);
-    //for(var i=0; i<walkArray.length; i++){
-    //  console.log(walkArray[i]);
-    //}
-    /*var walkArray = [
-      {lat: -41.275542, lng: 174.73142},
-      {lat: -41.282444, lng: 174.730133},
-      {lat: -41.290635, lng: 174.745239},
-      {lat: -41.279735, lng: 174.751247}
-    ];*/
+      routeArray.push(item);
 
-    var flightPath = new google.maps.Polyline({
-      path:walkArray,
-      strokeColor:"#f442e5",
-      strokeOpacity:0.8,
-      strokeWeight:2
+      /*var walkArray = [];
+
+      for(var i=0; i<child.length; i++){
+        var loc = (child[i].loc).split(",");
+        walkArray[i] = new google.maps.LatLng(loc[0], loc[1]);
+      }
+
+      var flightPath = new google.maps.Polyline({
+        path: walkArray,
+        strokeColor:"#f442e5",
+        strokeOpacity:0.8,
+        strokeWeight:2
+      });
+      flightPath.setMap(map);*/
     });
-    flightPath.setMap(map);
-  });
+  });  
 }
 
 var addMarkerListener = function(marker) {
