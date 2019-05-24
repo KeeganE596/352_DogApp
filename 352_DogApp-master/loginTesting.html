@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>New User</title>
+  <!--CSS-->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <div id="loginOutput">not logged in yet</div>
+
+  <br>
+
+  <form id="newUserForm">
+    <input type="text" name="email" id="newEmail" placeholder="Email">
+    <br>
+    <input type="text" name="password" id="newPassword" placeholder="Password">
+    <br>
+    <button type="submit">Make Account</button>
+  </form>
+
+  <br>
+
+  <form id="loginForm">
+    <input type="text" name="email" id="userEmail" placeholder="Email">
+    <br>
+    <input type="text" name="password" id="userPassword" placeholder="Password">
+    <br>
+    <button type="submit">Login</button>
+  </form>
+
+  <br>
+
+  <form id="signoutForm">
+    <button type="submit">Logout</button>
+  </form>
+
+  <!--Javascript links-->
+  <script src="https://www.gstatic.com/firebasejs/5.9.4/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.9.4/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.9.4/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.9.4/firebase-database.js"></script>
+  <script>
+    var config = {
+      apiKey: "AIzaSyDzTMFaxp5P0J4BHwRCNhuGtI-DoZXVbKk",
+      authDomain: "dogapp-f8549.firebaseapp.com",
+      databaseURL: "https://dogapp-f8549.firebaseio.com",
+      projectId: "dogapp-f8549",
+      storageBucket: "dogapp-f8549.appspot.com",
+      messagingSenderId: "250707991740",
+      appId: "1:250707991740:web:586111734a49a755"
+    };
+    firebase.initializeApp(config);
+
+    //make references
+    const auth = firebase.auth();
+    const fs = firebase.firestore();
+  </script>
+  <script type="text/javascript" src="js/auth.js"></script>
+</body>
+
+</html>
