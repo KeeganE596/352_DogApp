@@ -56,6 +56,12 @@ function initializeMap(position) {
   drawingManager.setMap(map);
 
   //draw water markers
+  var waterIcon = {
+      url: "images/Icons-water.png", // url
+      scaledSize: new google.maps.Size(30, 30), // scaled size
+      origin: new google.maps.Point(0,0), // origin
+      anchor: new google.maps.Point(0, 0) // anchor
+  };
   var marker_btn = document.createElement("button");
   marker_btn.innerHTML = "Water";
   // add handlers
@@ -70,7 +76,7 @@ function initializeMap(position) {
       } else {
           drawingManager.setDrawingMode(google.maps.drawing.OverlayType.MARKER);
           drawingManager.setOptions({markerOptions:
-                                     {icon:'images/drop.png'}});
+                                     {icon:waterIcon}});
           e.target.innerHTML = "Cancel";
       }
       toggled = !toggled;
@@ -80,6 +86,12 @@ function initializeMap(position) {
   map.controls[ google.maps.ControlPosition.BOTTOM_CENTER ].push( marker_btn );
 
   //draw hazard markers
+  var binIcon = {
+      url: "images/Icons-bin.png", // url
+      scaledSize: new google.maps.Size(30, 30), // scaled size
+      origin: new google.maps.Point(0,0), // origin
+      anchor: new google.maps.Point(0, 0) // anchor
+  };
   var marker_btn = document.createElement("button");
   marker_btn.innerHTML = "Bin";
   // add handlers
@@ -94,7 +106,7 @@ function initializeMap(position) {
         } else {
             drawingManager.setDrawingMode(google.maps.drawing.OverlayType.MARKER);
             drawingManager.setOptions({markerOptions:
-                                       {icon:'images/bin.png'}});
+                                       {icon:binIcon}});
             e.target.innerHTML = "Cancel";
         }
         toggled = !toggled;
@@ -103,7 +115,14 @@ function initializeMap(position) {
   // add button to map controls
   map.controls[ google.maps.ControlPosition.BOTTOM_CENTER ].push( marker_btn );
   
+
   //draw bin marker
+  var hazardIcon = {
+      url: "images/Icons-walking hazard.png", // url
+      scaledSize: new google.maps.Size(30, 30), // scaled size
+      origin: new google.maps.Point(0,0), // origin
+      anchor: new google.maps.Point(0, 0) // anchor
+  };
   var marker_btn = document.createElement("button");
   marker_btn.innerHTML = "Hazard";
   // add handlers
@@ -118,7 +137,7 @@ function initializeMap(position) {
         } else {
             drawingManager.setDrawingMode(google.maps.drawing.OverlayType.MARKER);
             drawingManager.setOptions({markerOptions:
-                                       {icon:'images/hazard.png'}
+                                       {icon:hazardIcon}
                                       });
             e.target.innerHTML = "Cancel";
         }
