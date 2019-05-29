@@ -194,10 +194,17 @@ function getPlaces(lat, lng) {
 
 function createMarkers(data) {
   for (var i = 0; i < data.results.length; i++) {
+    var icon = {
+      url: "images/Icons-park.png", // url
+      scaledSize: new google.maps.Size(40, 40), // scaled size
+      origin: new google.maps.Point(0,0), // origin
+      anchor: new google.maps.Point(0, 0) // anchor
+    };
+
     var marker = new google.maps.Marker({
       position: data.results[i].geometry.location,
       map: map,
-      icon: 'images/markerTest.png',
+      icon: icon,
       title: data.results[i].place_id
     });
 

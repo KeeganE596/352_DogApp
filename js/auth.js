@@ -3,29 +3,75 @@ var outputText = document.getElementById('loginOutput');
 //listen for auth state change
 auth.onAuthStateChanged(user => {
 	if(user) {
-		console.log('user logged in');
+		loggedIn.style.display = "block"
+		login.style.display = "none"
+		newuser.style.display = "none";
+		signupParent.style.display = "none"
+		loginParent.style.display = "none"
+		logout.style.display = "block";
 	}
 	else {
-		console.log('user logged out');
+		loggedIn.style.display = "none"
+		login.style.display = "none"
+		newuser.style.display = "none";
+		signupParent.style.display = "block"
+		loginParent.style.display = "block"
+		logout.style.display = "none";
 	}
 })
 
-//signup
 const newuser = document.getElementById('newUserForm');
-newuser.addEventListener('submit', (e) => {
-	e.preventDefault();
+const login = document.getElementById('loginForm');
+const loggedIn = document.getElementById('loggedIn');
 
-	//get user info
-	const email = newuser['newEmail'].value;
-	const password = newuser['newPassword'].value;
+//signup
+const signupParent = document.getElementById('signupParent');
+signupParent.addEventListener('click', function() {
+	if(newuser.style.display == "block") {
+		newuser.style.display = "none"
+	}
+	else {
+		newuser.style.display = "block";
+	}
+	
 
-	//signup user
-	auth.createUserWithEmailAndPassword(email, password).then( cred => {
-		newuser.reset();
+	newuser.addEventListener('submit', (e) => {
+		e.preventDefault();
 
-		outputText.style.display = 'block';
-		outputText.style.color = 'green';
-		outputText.innerHTML = "New user has been made and logged in";
+		//get user info
+		const email = newuser['newEmail'].value;
+		const password = newuser['newPassword'].value;
+
+		//signup user
+		auth.createUserWithEmailAndPassword(email, password).then( cred => {
+			newuser.reset();
+		});
+	});
+});
+
+
+
+//login
+const loginParent = document.getElementById('loginParent');
+loginParent.addEventListener('click', function() {
+	if(login.style.display == "block") {
+		login.style.display = "none"
+	}
+	else {
+		login.style.display = "block";
+	}
+
+	login.addEventListener('submit', (e) => {
+		e.preventDefault();
+
+		//get user info
+		const email = login['userEmail'].value;
+		const password = login['userPassword'].value;
+
+		//signup user
+		auth.signInWithEmailAndPassword(email, password).then( cred => {
+			login.reset();
+		});
 	});
 });
 
@@ -33,28 +79,5 @@ newuser.addEventListener('submit', (e) => {
 const logout = document.getElementById('signoutForm');
 logout.addEventListener('click', (e) => {
 	e.preventDefault();
-	auth.signOut().then(() => {
-		outputText.style.display = 'block';
-		outputText.style.color = 'orange';
-		outputText.innerHTML = "User has been signed out";
-	})
+	auth.signOut();
 })
-
-//signin
-const login = document.getElementById('loginForm');
-login.addEventListener('submit', (e) => {
-	e.preventDefault();
-
-	//get user info
-	const email = login['userEmail'].value;
-	const password = login['userPassword'].value;
-
-	//signup user
-	auth.signInWithEmailAndPassword(email, password).then( cred => {
-		login.reset();
-
-		outputText.style.display = 'block';
-		outputText.style.color = 'green';
-		outputText.innerHTML = "User logged in";
-	});
-});

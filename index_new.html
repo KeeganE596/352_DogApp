@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Tailtreks</title>
+
+  <!--CSS-->
+  <link rel="stylesheet" href="css/style_new.css">
+  <!--Javascript links-->
+  <script src="https://www.gstatic.com/firebasejs/5.9.4/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.9.4/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.9.4/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.9.4/firebase-database.js"></script>
+  <script>
+    var config = {
+      apiKey: "AIzaSyDzTMFaxp5P0J4BHwRCNhuGtI-DoZXVbKk",
+      authDomain: "dogapp-f8549.firebaseapp.com",
+      databaseURL: "https://dogapp-f8549.firebaseio.com",
+      projectId: "dogapp-f8549",
+      storageBucket: "dogapp-f8549.appspot.com",
+      messagingSenderId: "250707991740",
+      appId: "1:250707991740:web:586111734a49a755"
+    };
+    firebase.initializeApp(config);
+
+    //make references
+    const dbParks = firebase.database().ref('parks');
+    const dbWalks = firebase.database().ref('walks');
+    const auth = firebase.auth();
+    const fs = firebase.firestore();
+  </script>
+
+  
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3n54OXCbbKXpoaZ7S5xSImEkqNE_KV_A&libraries=drawing&callback"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script type="text/javascript" src="js/main.js"></script>
+</head>
+
+<body onload="getLocation()">
+  
+  <div class="container">
+    <!-- Sidebar -->
+    <div class="sideBlock">
+      <img src="images/Logo-Canine-community.png" class="sideLogo">
+
+      <div class="loggedInButton" id="loggedIn">You Are Logged In</div>
+
+      <div class="sideButton" id="loginParent">LOGIN</div>
+      <form id="loginForm" class="sideForm">
+        <input type="text" name="email" id="userEmail" placeholder="Email" class="input">
+        <br>
+        <input type="text" name="password" id="userPassword" placeholder="Password" class="input">
+        <br>
+        <button type="submit" class="inputButton">Login</button>
+      </form>
+
+      <div class="sideButton" id="signupParent">SIGN UP</div>
+      <form id="newUserForm" class="sideForm">
+        <input type="text" name="email" id="newEmail" placeholder="Email" class="input">
+        <br>
+        <input type="text" name="password" id="newPassword" placeholder="Password" class="input">
+        <br>
+        <button type="submit" class="inputButton">Make Account</button>
+      </form>
+
+      <div class="logoutButton" id="signoutForm">LOGOUT</div>
+
+      <br><br><br><br>
+
+      <form id="saveRouteForm" class="sideForm ">
+        <input type="text" name="name" placeholder="New Walk Name" id="routeName" class="input">
+        <button type="submit" id="savebutton" class="inputButton">Save New Walk</button>
+      </form>
+
+    </div>
+    <!-- Map -->
+    <div class="mapBlock"> 
+      <div id="map"></div> 
+    </div> 
+  </div>
+
+ 
+
+  <!--<br><br>
+
+  <form id="userForm" class="nameForm">
+    <input type="text" name="name" placeholder="Change Name" id="name">
+    <button type="submit">Submit</button>
+  </form>
+  <form id="dogForm" class="nameForm">
+    <input type="text" name="dogFriendly" placeholder="Dog Friendly?" id="dogFriendly">
+    <button type="submit">Submit</button>
+  </form>
+
+  <br><br>
+
+  <div class="markerBox">
+    <pre id="printName" class="text">Marker Name</pre>
+    <pre id="printAddy" class="text">Address</pre>
+    <pre id="printLocLat" class="text lng">Latitude</pre>
+    <pre id="printLocLng" class="text lng">Longitude</pre>
+    <br>
+    <pre id="printDog" class="text dog">Is Dog Friendly:</pre>
+  </div>
+
+  <br><br>
+
+  <form id="saveRouteForm" class="nameForm">
+    <input type="text" name="name" placeholder="Route Name" id="routeName">
+    <button type="submit" id="savebutton">Save Path</button>
+  </form>-->
+
+  <script type="text/javascript" src="js/auth.js"></script>
+</body>
+
+</html>
