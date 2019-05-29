@@ -49,7 +49,7 @@
       <form id="loginForm" class="sideForm">
         <input type="text" name="email" id="userEmail" placeholder="Email" class="input">
         <br>
-        <input type="text" name="password" id="userPassword" placeholder="Password" class="input">
+        <input type="password" name="password" id="userPassword" placeholder="Password" class="input">
         <br>
         <button type="submit" class="inputButton">Login</button>
       </form>
@@ -58,7 +58,7 @@
       <form id="newUserForm" class="sideForm">
         <input type="text" name="email" id="newEmail" placeholder="Email" class="input">
         <br>
-        <input type="text" name="password" id="newPassword" placeholder="Password" class="input">
+        <input type="password" name="password" id="newPassword" placeholder="Password" class="input">
         <br>
         <button type="submit" class="inputButton">Make Account</button>
       </form>
@@ -67,10 +67,17 @@
 
       <br><br><br><br>
 
-      <form id="saveRouteForm" class="sideForm ">
+      <div id="addMarkersContainer">
+        <div class="logoutButton title">Add New Marker/Walk</div>
+        <div class="logoutButton walk" id="placeWalk">New Walk</div>
+        <form id="saveRouteForm" class="sideForm" style="display: none;">
         <input type="text" name="name" placeholder="New Walk Name" id="routeName" class="input">
-        <button type="submit" id="savebutton" class="inputButton">Save New Walk</button>
-      </form>
+          <button type="submit" id="savebutton" class="inputButton">Save New Walk</button>
+        </form>
+        <div class="logoutButton bin" id="placeBin">Bin</div>
+        <div class="logoutButton water" id="placeWater">Water Stop</div>
+        <div class="logoutButton hazard" id="placeHazard">Hazard</div>
+      </div>
 
     </div>
     <!-- Map -->

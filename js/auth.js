@@ -9,6 +9,7 @@ auth.onAuthStateChanged(user => {
 		signupParent.style.display = "none"
 		loginParent.style.display = "none"
 		logout.style.display = "block";
+		markersContainer.style.display = "block";
 	}
 	else {
 		loggedIn.style.display = "none"
@@ -17,21 +18,24 @@ auth.onAuthStateChanged(user => {
 		signupParent.style.display = "block"
 		loginParent.style.display = "block"
 		logout.style.display = "none";
+		markersContainer.style.display = "none";
 	}
 })
 
 const newuser = document.getElementById('newUserForm');
 const login = document.getElementById('loginForm');
 const loggedIn = document.getElementById('loggedIn');
+const markersContainer = document.getElementById('addMarkersContainer');
 
 //signup
 const signupParent = document.getElementById('signupParent');
 signupParent.addEventListener('click', function() {
 	if(newuser.style.display == "block") {
-		newuser.style.display = "none"
+		newuser.style.display = "none";
 	}
 	else {
 		newuser.style.display = "block";
+		login.style.display = "none";
 	}
 	
 
@@ -55,10 +59,11 @@ signupParent.addEventListener('click', function() {
 const loginParent = document.getElementById('loginParent');
 loginParent.addEventListener('click', function() {
 	if(login.style.display == "block") {
-		login.style.display = "none"
+		login.style.display = "none";
 	}
 	else {
 		login.style.display = "block";
+		newuser.style.display = "none";
 	}
 
 	login.addEventListener('submit', (e) => {

@@ -92,7 +92,8 @@ html, body {
 .inputButton {
 	width: 97%;
 	padding: 4px;
-	background-color: rgb(180, 180, 180);
+	background-color: #34a853;
+	color: white;
 	border: none;
 	border-radius: 2px;
 	margin-left: 2%;
@@ -100,7 +101,7 @@ html, body {
 	margin-bottom: 10px;
 }
 .inputButton:hover {
-	background-color: rgb(160, 160, 160);
+	background-color: #247339;
 	cursor: pointer;
 }
 
@@ -109,28 +110,45 @@ html, body {
 	height: 100%;
 }
 
-.nameForm {
-	width: 90%;
-	margin-left: 5px;
-	margin-bottom: 5px;
+.title:hover {
+	color: rgb(80, 80, 80);
+	background: rgb(210, 210, 210);
+	cursor: auto;
 }
 
-.markerBox {
-	background: lightgrey;
-	width: 450px;
-	margin-left: 10px;
-	margin-top: -25px;
-	padding-bottom: 5px;
+.bin, .water, .hazard, .walk {
+	width: 70%;
+	margin-left: 15%;
+	margin-right: 15%;
+	color: white;
 }
 
-.text {
-	padding-left: 10px;
-	padding-top: 10px;
+.bin {
+	background-color: #fbbc05;
+}
+.bin:hover {
+	background-color: #daa200;
 }
 
-.lng {
-	float: left;
-	padding-top: 0px;
+.water {
+	background-color: #4285f4;
+}
+.water:hover {
+	background-color: #366dc7;
+}
+
+.hazard {
+	background-color: #ea4335;
+}
+.hazard:hover {
+	background-color: #bd362b;
+}
+
+.walk {
+	background-color: #34a853;
+}
+.walk:hover {
+	background-color: #247339;
 }
 
 .bt {
