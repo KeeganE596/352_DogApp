@@ -286,7 +286,7 @@ var addMarkerListener = function(marker, infoWindow) {
 
 function createKMLWalks() {
   var ctaLayer = new google.maps.KmlLayer({
-    url: 'https://docs.google.com/uc?id=1JEOLocypIasBryadPwMe7vVt7AFJopms&amp;export=kml',
+    url: 'https://docs.google.com/uc?id=1XPoU4HsYkHV0J6oyIKx248cTQA9_UEQ5&amp;export=kmz',
     map: map,
     fill: "#02BC74",
     preserveViewport: true
