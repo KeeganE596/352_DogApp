@@ -10,9 +10,6 @@ auth.onAuthStateChanged(user => {
 		loginParent.style.display = "none"
 		logout.style.display = "block";
 		markersContainer.style.display = "block";
-		fs.collection('users').doc(user.uid).get().then(doc => {
-			document.getElementById('loggedIn').innerHTML = doc.data().username;
-		});
 	}
 	else {
 		loggedIn.style.display = "none"
@@ -23,7 +20,7 @@ auth.onAuthStateChanged(user => {
 		logout.style.display = "none";
 		markersContainer.style.display = "none";
 	}
-});
+})
 
 const newuser = document.getElementById('newUserForm');
 const login = document.getElementById('loginForm');
@@ -51,10 +48,6 @@ signupParent.addEventListener('click', function() {
 
 		//signup user
 		auth.createUserWithEmailAndPassword(email, password).then( cred => {
-			return fs.collection('users').doc(cred.user.uid).set({
-				username: newuser['newUsername'].value
-			});
-		}).then(() => {
 			newuser.reset();
 		});
 	});

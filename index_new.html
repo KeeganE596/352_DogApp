@@ -38,24 +38,22 @@
 
 <body onload="getLocation()">
 
-  <div class = "container">
-    <div class="homepage">
-      <a href="#container">
-  <img src="images/Logo-Canine-community.png" class="homepage">
-</div>
-</div>
+
+  <div class="homepage">
+      <div class="homepageImg">
+        <img src="images/Logo-Canine-community.png" class="hImg" href="#container">
+      </div>
+  </div>
 
   
-  <div class="container" id="container">
-
-
+  <div class="container">
     <!-- Sidebar -->
     <div class="sideBlock">
       <img src="images/Logo-Canine-community.png" class="sideLogo">
 
       <div class="loggedInButton" id="loggedIn">You Are Logged In</div>
 
-      <div class="sideButton" id="loginParent">LOGIN</div>
+      <div class="sideButton walk" id="loginParent">LOGIN</div>
       <form id="loginForm" class="sideForm">
         <input type="text" name="email" id="userEmail" placeholder="Email" class="input">
         <br>
@@ -64,9 +62,11 @@
         <button type="submit" class="inputButton">Login</button>
       </form>
 
-      <div class="sideButton" id="signupParent">SIGN UP</div>
+      <div class="sideButton water" id="signupParent">SIGN UP</div>
       <form id="newUserForm" class="sideForm">
         <input type="text" name="email" id="newEmail" placeholder="Email" class="input">
+        <br>
+        <input type="text" name="username" id="newUsername" placeholder="Username" class="input">
         <br>
         <input type="password" name="password" id="newPassword" placeholder="Password" class="input">
         <br>
@@ -95,37 +95,6 @@
       <div id="map"></div> 
     </div> 
   </div>
-
- 
-
-  <!--<br><br>
-
-  <form id="userForm" class="nameForm">
-    <input type="text" name="name" placeholder="Change Name" id="name">
-    <button type="submit">Submit</button>
-  </form>
-  <form id="dogForm" class="nameForm">
-    <input type="text" name="dogFriendly" placeholder="Dog Friendly?" id="dogFriendly">
-    <button type="submit">Submit</button>
-  </form>
-
-  <br><br>
-
-  <div class="markerBox">
-    <pre id="printName" class="text">Marker Name</pre>
-    <pre id="printAddy" class="text">Address</pre>
-    <pre id="printLocLat" class="text lng">Latitude</pre>
-    <pre id="printLocLng" class="text lng">Longitude</pre>
-    <br>
-    <pre id="printDog" class="text dog">Is Dog Friendly:</pre>
-  </div>
-
-  <br><br>
-
-  <form id="saveRouteForm" class="nameForm">
-    <input type="text" name="name" placeholder="Route Name" id="routeName">
-    <button type="submit" id="savebutton">Save Path</button>
-  </form>-->
 
   <script type="text/javascript" src="js/auth.js"></script>
 </body>

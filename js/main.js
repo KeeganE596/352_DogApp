@@ -6,6 +6,8 @@ function getLocation() {
 
 var map;
 var selected = null;
+var pathlocations = [];
+const saveButton = document.getElementById('saveRouteForm');
 
 function initializeMap(position) {
   // Get current position
@@ -49,138 +51,135 @@ function initializeMap(position) {
   getPlaces(latVar, lonVar);
 
   //Map drawing initialisation
-  //draw water markers
-  var drawingManager = new google.maps.drawing.DrawingManager({
-    drawingControl: false
-  }); 
-  drawingManager.setMap(map);
+      var drawingManager = new google.maps.drawing.DrawingManager({
+        drawingControl: false
+      }); 
+      drawingManager.setMap(map);
 
-  
+      //draw water markers
+      var waterIcon = {
+          url: "images/Icons-water.png", // url
+          scaledSize: new google.maps.Size(25, 25), // scaled size
+          origin: new google.maps.Point(0, 0), // origin
+          anchor: new google.maps.Point(12, 12) // anchor
+      };
 
-  
+      const placeWater = document.getElementById('placeWater');
+      placeWater.addEventListener('click', (function() {
+        // closure handles local toggle variables
+          var toggled = false;
+          return function (e) {
+            if (toggled) {
+                drawingManager.setDrawingMode(null);
+                e.target.innerHTML = originalHTML;
+            } else {
+                drawingManager.setDrawingMode(google.maps.drawing.OverlayType.MARKER);
+                drawingManager.setOptions({markerOptions:
+                                           {icon:waterIcon}
+                                          });
+            }
+            toggled = !toggled;
+          }
+      })());
 
-  //draw water markers
-  var waterIcon = {
-      url: "images/Icons-water.png", // url
-      scaledSize: new google.maps.Size(30, 30), // scaled size
-      origin: new google.maps.Point(0, 0), // origin
-      anchor: new google.maps.Point(15, 15) // anchor
-  };
+      //draw bin markers
+      var binIcon = {
+          url: "images/Icons-bin.png", // url
+          scaledSize: new google.maps.Size(25, 25), // scaled size
+          origin: new google.maps.Point(0, 0), // origin
+          anchor: new google.maps.Point(12, 12) // anchor
+      };
 
-  const placeWater = document.getElementById('placeWater');
-  placeWater.addEventListener('click', (function() {
-    // closure handles local toggle variables
-      var toggled = false;
-      return function (e) {
-        if (toggled) {
+      const placeBin = document.getElementById('placeBin');
+      placeBin.addEventListener('click', (function() {
+        // closure handles local toggle variables
+          var toggled = false;
+          return function (e) {
+            if (toggled) {
+              drawingManager.setDrawingMode(null);
+            } else {
+                drawingManager.setDrawingMode(google.maps.drawing.OverlayType.MARKER);
+                drawingManager.setOptions({markerOptions:
+                                           {icon:binIcon}
+                                          });
+            }
+            toggled = !toggled;
+          }
+      })());
+      
+
+      //draw hazard marker
+      var hazardIcon = {
+          url: "images/Icons-walking hazard.png", // url
+          scaledSize: new google.maps.Size(25, 25), // scaled size
+          origin: new google.maps.Point(0, 0), // origin
+          anchor: new google.maps.Point(12, 12) // anchor
+      };
+
+      const placehazard = document.getElementById('placeHazard');
+      placeHazard.addEventListener('click', (function() {
+        // closure handles local toggle variables
+          var toggled = false;
+          return function (e) {
+            if (toggled) {
+                drawingManager.setDrawingMode(null);
+            } else {
+                drawingManager.setDrawingMode(google.maps.drawing.OverlayType.MARKER);
+                drawingManager.setOptions({markerOptions:
+                                           {icon:hazardIcon}
+                                          });
+            }
+            toggled = !toggled;
+          }
+      })());
+
+      //draw new route
+      const placeWalk = document.getElementById('placeWalk');
+      placeWalk.addEventListener('click', (function() {
+
+        // closure handles local toggle variables
+        var toggled = false;
+        return function (e) {
+          if (toggled) {
+            document.getElementById('saveRouteForm').style.display = "none";
             drawingManager.setDrawingMode(null);
-            e.target.innerHTML = originalHTML;
-        } else {
-            drawingManager.setDrawingMode(google.maps.drawing.OverlayType.MARKER);
-            drawingManager.setOptions({markerOptions:
-                                       {icon:waterIcon}
-                                      });
+          } else {
+            document.getElementById('saveRouteForm').style.display = "block";
+            drawingManager.setDrawingMode(google.maps.drawing.OverlayType.POLYLINE);
+            drawingManager.setOptions({polylineOptions:
+                                         {strokeColor: "#02BC74", strokeWeight: 2}});
+          }
+          toggled = !toggled;
         }
-        toggled = !toggled;
-      }
-  })());
+      })());
 
-  //draw bin markers
-  var binIcon = {
-      url: "images/Icons-bin.png", // url
-      scaledSize: new google.maps.Size(30, 30), // scaled size
-      origin: new google.maps.Point(0, 0), // origin
-      anchor: new google.maps.Point(15, 15) // anchor
-  };
+    var routeLines = [];
+    
 
-  const placeBin = document.getElementById('placeBin');
-  placeBin.addEventListener('click', (function() {
-    // closure handles local toggle variables
-      var toggled = false;
-      return function (e) {
-        if (toggled) {
-          drawingManager.setDrawingMode(null);
-        } else {
-            drawingManager.setDrawingMode(google.maps.drawing.OverlayType.MARKER);
-            drawingManager.setOptions({markerOptions:
-                                       {icon:binIcon}
-                                      });
-        }
-        toggled = !toggled;
-      }
-  })());
-  
-
-  //draw hazard marker
-  var hazardIcon = {
-      url: "images/Icons-walking hazard.png", // url
-      scaledSize: new google.maps.Size(30, 30), // scaled size
-      origin: new google.maps.Point(0, 0), // origin
-      anchor: new google.maps.Point(15, 15) // anchor
-  };
-
-  const placehazard = document.getElementById('placeHazard');
-  placeHazard.addEventListener('click', (function() {
-    // closure handles local toggle variables
-      var toggled = false;
-      //var originalHTML = marker_btn.innerHTML;
-      return function (e) {
-        if (toggled) {
-            drawingManager.setDrawingMode(null);
-            //e.target.innerHTML = originalHTML;
-        } else {
-            drawingManager.setDrawingMode(google.maps.drawing.OverlayType.MARKER);
-            drawingManager.setOptions({markerOptions:
-                                       {icon:hazardIcon}
-                                      });
-            //e.target.innerHTML = "Cancel";
-        }
-        toggled = !toggled;
-      }
-  })());
-
-  //draw new route
-  const placeWalk = document.getElementById('placeWalk');
-  placeWalk.addEventListener('click', (function() {
-
-    // closure handles local toggle variables
-    var toggled = false;
-    //var originalHTML = marker_btn.innerHTML;
-    return function (e) {
-      if (toggled) {
-        document.getElementById('saveRouteForm').style.display = "none";
-        drawingManager.setDrawingMode(null);
-        //e.target.innerHTML = originalHTML;
-      } else {
-        document.getElementById('saveRouteForm').style.display = "block";
-        drawingManager.setDrawingMode(google.maps.drawing.OverlayType.POLYLINE);
-        drawingManager.setOptions({polylineOptions:
-                                     {strokeColor: "#02BC74", strokeWeight: 2}});
-        //e.target.innerHTML = "Cancel";
-      }
-      toggled = !toggled;
-    }
-  })());
-
-  var routeLines = [];
-  google.maps.event.addDomListener(drawingManager, 'polylinecomplete', function (polyline) {
-    routeLines.push(polyline);
-  });
-
-  const saveButton = document.getElementById('saveRouteForm');
-  saveButton.addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    const name = saveButton['routeName'].value;
-    var newWalkRef = dbWalks.child(name);
+    google.maps.event.addDomListener(drawingManager, 'polylinecomplete', function (polyline) {
+      routeLines.push(polyline);
+    });
 
     for(var i = 0; i < routeLines[0].getPath().getLength(); i++) {
-      var loc = routeLines[0].getPath().getAt(i).toUrlValue(6);
-      console.log(loc);
-      newWalkRef.child(i).set({loc});
+      pathlocations = routeLines[0].getPath().getAt(i).toUrlValue(6);
     }
     routeLines = [];
-  });
+
+    /*const saveButton = document.getElementById('saveRouteForm');
+    saveButton.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const name = saveButton['routeName'].value;
+      var newWalkRef = dbWalks.child(name);
+
+      for(var i = 0; i < routeLines[0].getPath().getLength(); i++) {
+        var loc = routeLines[0].getPath().getAt(i).toUrlValue(6);
+        var pathlocations = routeLines[0].getPath().getAt(i).toUrlValue(6);
+        newWalkRef.child(i).set({loc});
+      }
+      routeLines = [];
+    });*/
+
   drawUserWalks();
 }
 
@@ -206,13 +205,13 @@ function createMarkers(data) {
   for (var i = 0; i < data.results.length; i++) {
     var icon = {
       url: "images/Icons-park.png", // url
-      scaledSize: new google.maps.Size(40, 40), // scaled size
+      scaledSize: new google.maps.Size(35, 35), // scaled size
       origin: new google.maps.Point(0,0), // origin
-      anchor: new google.maps.Point(0, 0) // anchor
+      anchor: new google.maps.Point(17, 17) // anchor
     };
 
     var infoString =  `<h3>${data.results[i].name}</h3>`+ 
-                      `<h4>${data.results[i].vicinity}</h4>`;
+                      `<p>${data.results[i].vicinity}</p>`;
     var infoWindow = new google.maps.InfoWindow({
       content: infoString
     });
@@ -255,9 +254,10 @@ function drawUserWalks() {
       var walkArray = [];
 
       for(var i=0; i<routeArray.length; i++){
-        var loc = (routeArray[i].split(","));
+        var loc = routeArray[i].split(",");
         walkArray[i] = new google.maps.LatLng(loc[0], loc[1]);
       }
+
 
       var flightPath = new google.maps.Polyline({
         path: walkArray,
@@ -289,7 +289,7 @@ function createKMLWalks() {
     url: 'https://docs.google.com/uc?id=1XPoU4HsYkHV0J6oyIKx248cTQA9_UEQ5&amp;export=kmz',
     map: map,
     fill: "#02BC74",
-    preserveViewport: true
+    preserveViewport: true,
   });
 }
 
@@ -297,19 +297,7 @@ function createKMLWalks() {
 function checkDatabase(marker) {
   var newParksRef = dbParks.child(marker.title);
 
-  /*newParksRef.child("name").once('value').then(function(snapshot) {
-    document.getElementById("printName").innerText = snapshot.val();
-  });
-  newParksRef.child("vicinity").once('value').then(function(snapshot) {
-    document.getElementById("printAddy").innerText = snapshot.val();
-  });
-  newParksRef.child("location").child("lat").once('value').then(function(snapshot) {
-    document.getElementById("printLocLat").innerText = ("lat: " + snapshot.val() + ", ");
-  });
-  newParksRef.child("location").child("lng").once('value').then(function(snapshot) {
-    document.getElementById("printLocLng").innerText = ("lng: " + snapshot.val());
-  });
-  return newParksRef.child("dog-friendly").once('value').then(function(snapshot) {
+  /*return newParksRef.child("dog-friendly").once('value').then(function(snapshot) {
     document.getElementById("printDog").innerText = ("Is Dog Friendly: " + snapshot.val());
   });*/
 }
@@ -340,5 +328,25 @@ function addDogFriendly(toggle) {
   change["/dog-friendly"] = toggle;
   return dbParks.child(selected.title).update(change);
 }
+
+//listen for auth state change
+auth.onAuthStateChanged(user => {
+  if(user) {
+    var fsRef = fs.collection('users').doc(user.uid);
+
+    saveButton.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      for(var i=0; i<pathlocations.Length; i++) {
+        fsRef.collection('walk').set({
+              loc: pathlocations[i]
+        });
+      }
+    });
+  }
+  else {
+    console.log("logged out");
+  }
+});
 
 
