@@ -8,6 +8,8 @@ var map;
 var selected = null;
 var pathlocations = [];
 const saveButton = document.getElementById('saveRouteForm');
+var userID = null;
+var userWalks = [];
 
 function initializeMap(position) {
   // Get current position
@@ -63,8 +65,10 @@ function initializeMap(position) {
           origin: new google.maps.Point(0, 0), // origin
           anchor: new google.maps.Point(12, 12) // anchor
       };
-
-      const placeWater = document.getElementById('placeWater');
+      var placeWater = document.getElementById('placeWater');
+      if(window.innerWidth < 900) {
+        placeWater = document.getElementById('placeWaterMob');
+      }
       placeWater.addEventListener('click', (function() {
         // closure handles local toggle variables
           var toggled = false;
@@ -89,8 +93,10 @@ function initializeMap(position) {
           origin: new google.maps.Point(0, 0), // origin
           anchor: new google.maps.Point(12, 12) // anchor
       };
-
-      const placeBin = document.getElementById('placeBin');
+      var placeBin = document.getElementById('placeBin');
+      if(window.innerWidth < 900) {
+        placeBin = document.getElementById('placeBinMob');
+      }
       placeBin.addEventListener('click', (function() {
         // closure handles local toggle variables
           var toggled = false;
@@ -115,8 +121,10 @@ function initializeMap(position) {
           origin: new google.maps.Point(0, 0), // origin
           anchor: new google.maps.Point(12, 12) // anchor
       };
-
-      const placehazard = document.getElementById('placeHazard');
+      var placehazard = document.getElementById('placeHazard');
+      if(window.innerWidth < 900) {
+        placeHazard = document.getElementById('placeHazardMob');
+      }
       placeHazard.addEventListener('click', (function() {
         // closure handles local toggle variables
           var toggled = false;
@@ -134,17 +142,25 @@ function initializeMap(position) {
       })());
 
       //draw new route
-      const placeWalk = document.getElementById('placeWalk');
+      var placeWalk = document.getElementById('placeWalk');
+      if(window.innerWidth < 900) {
+        placeWalk = document.getElementById('placeWalkMob');
+      }
       placeWalk.addEventListener('click', (function() {
-
         // closure handles local toggle variables
         var toggled = false;
         return function (e) {
           if (toggled) {
             document.getElementById('saveRouteForm').style.display = "none";
+            document.getElementById('savePathMob').style.display = "none";
             drawingManager.setDrawingMode(null);
           } else {
-            document.getElementById('saveRouteForm').style.display = "block";
+            if(window.innerWidth < 900) {
+              document.getElementById('savePathMob').style.display = "block";
+            }
+            else {
+              document.getElementById('saveRouteForm').style.display = "block";
+            }
             drawingManager.setDrawingMode(google.maps.drawing.OverlayType.POLYLINE);
             drawingManager.setOptions({polylineOptions:
                                          {strokeColor: "#02BC74", strokeWeight: 2}});
@@ -154,23 +170,27 @@ function initializeMap(position) {
       })());
 
     var routeLines = [];
-    
-
     google.maps.event.addDomListener(drawingManager, 'polylinecomplete', function (polyline) {
       routeLines.push(polyline);
     });
 
-    for(var i = 0; i < routeLines[0].getPath().getLength(); i++) {
-      pathlocations = routeLines[0].getPath().getAt(i).toUrlValue(6);
+    var saveButton = document.getElementById('saveRouteForm');
+    if(window.innerWidth < 900) {
+      saveButton = document.getElementById('savePathMob');
     }
-    routeLines = [];
-
-    /*const saveButton = document.getElementById('saveRouteForm');
     saveButton.addEventListener('submit', (e) => {
       e.preventDefault();
 
-      const name = saveButton['routeName'].value;
-      var newWalkRef = dbWalks.child(name);
+      var name;
+      if(saveButton['routeName'] != null) {
+        name = saveButton['routeName'].value;
+      }
+      else { 
+        name = new Date().getTime();  
+      }
+      
+      var userRef = dbWalks.child(userID);
+      var newWalkRef = userRef.child(name);
 
       for(var i = 0; i < routeLines[0].getPath().getLength(); i++) {
         var loc = routeLines[0].getPath().getAt(i).toUrlValue(6);
@@ -178,9 +198,7 @@ function initializeMap(position) {
         newWalkRef.child(i).set({loc});
       }
       routeLines = [];
-    });*/
-
-  drawUserWalks();
+    });
 }
 
 function getPlaces(lat, lng) {
@@ -246,28 +264,32 @@ function drawUserWalks() {
   var routeArray = [];
 
   dbWalks.on('value', function(snapshot) {
-    snapshot.forEach((child) => {
-      child.forEach((item) => {
-        routeArray.push(item.val().loc);
-      });
+    snapshot.forEach((user) => {
+      if(user.key == userID) {
+        user.forEach((walk) => {
+          walk.forEach((location) => {
+            routeArray.push(location.val().loc);
+          });
 
-      var walkArray = [];
+          var walkArray = [];
 
-      for(var i=0; i<routeArray.length; i++){
-        var loc = routeArray[i].split(",");
-        walkArray[i] = new google.maps.LatLng(loc[0], loc[1]);
+          for(var i=0; i<routeArray.length; i++){
+            var loc = routeArray[i].split(",");
+            walkArray[i] = new google.maps.LatLng(loc[0], loc[1]);
+          }
+
+          var flightPath = new google.maps.Polyline({
+            path: walkArray,
+            strokeColor:"#4285f4",
+            strokeOpacity:0.8,
+            strokeWeight:2
+          });
+          flightPath.setMap(map);
+          userWalks.push(flightPath);
+
+          routeArray = [];
+        });
       }
-
-
-      var flightPath = new google.maps.Polyline({
-        path: walkArray,
-        strokeColor:"#f442e5",
-        strokeOpacity:0.8,
-        strokeWeight:2
-      });
-      flightPath.setMap(map);
-
-      routeArray = [];
     });
   });  
 }
@@ -332,20 +354,17 @@ function addDogFriendly(toggle) {
 //listen for auth state change
 auth.onAuthStateChanged(user => {
   if(user) {
-    var fsRef = fs.collection('users').doc(user.uid);
+    var u = fs.collection('users').doc(user.uid);
+    userID = u.id;
 
-    saveButton.addEventListener('submit', (e) => {
-      e.preventDefault();
-
-      for(var i=0; i<pathlocations.Length; i++) {
-        fsRef.collection('walk').set({
-              loc: pathlocations[i]
-        });
-      }
-    });
+    drawUserWalks();
   }
   else {
-    console.log("logged out");
+    userID = null;
+    for(var i=0; i<userWalks.length; i++) {
+      userWalks[i].setMap(null);
+    }
+    userWalks = [];
   }
 });
 

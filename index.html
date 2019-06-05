@@ -38,44 +38,74 @@
 
 <body onload="getLocation()">
 
-  <div class="mapBlock"> <div id="map"></div> </div> 
 
-  <br><br>
-
-  <form id="userForm" class="nameForm">
-    <input type="text" name="name" placeholder="Change Name" id="name">
-    <button type="submit">Submit</button>
-  </form>
-  <form id="dogForm" class="nameForm">
-    <input type="text" name="dogFriendly" placeholder="Dog Friendly?" id="dogFriendly">
-    <button type="submit">Submit</button>
-  </form>
-
-  <br><br>
-
-  <div class="markerBox">
-    <pre id="printName" class="text">Marker Name</pre>
-    <pre id="printAddy" class="text">Address</pre>
-    <pre id="printLocLat" class="text lng">Latitude</pre>
-    <pre id="printLocLng" class="text lng">Longitude</pre>
-    <br>
-    <pre id="printDog" class="text dog">Is Dog Friendly:</pre>
+  <div class="homepage">
+      <div class="homepageImg">
+        <a href="#main">
+          <img src="images/Logo-Canine-community.png" class="hImg" >
+        </a>
+      </div>
   </div>
 
-  <br><br>
+  
+  <div class="container" id="main">
+    <!-- Sidebar -->
+    <div class="sideBlock">
+      <img src="images/Logo-Canine-community.png" class="sideLogo">
 
-  <form id="saveRouteForm" class="nameForm">
-    <input type="text" name="name" placeholder="Route Name" id="routeName">
-    <button type="submit" id="savebutton">Save Path</button>
-  </form>
+      <div class="loginStatusContainer">
+        <div class="loggedInButton" id="loggedIn">You Are Logged In</div>
+        <div class="logoutButton" id="signoutForm">LOGOUT</div>
+      </div>
 
-  <!--<div class = 'savebutton'>    
-    <button id="savebutton" style="position: relative; background-color: #67c8a6; border: none;font-weight: bold; color: #f8db7e;">SAVE PATH</button>
-    <div class = 'save-path'>
-      <textarea id="savedata" rows="1" cols="30" ></textarea>
+      <div class="loginContainer">
+        <div class="sideButton walk" id="loginParent">LOGIN</div>
+          <form id="loginForm" class="sideForm">
+            <input type="text" name="email" id="userEmail" placeholder="Email" class="input">
+            <input type="password" name="password" id="userPassword" placeholder="Password" class="input">
+            <button type="submit" class="inputButton">Login</button>
+          </form>
+
+          <div class="sideButton water" id="signupParent">SIGN UP</div>
+          <form id="newUserForm" class="sideForm">
+            <input type="text" name="email" id="newEmail" placeholder="Email" class="input">
+            <input type="text" name="username" id="newUsername" placeholder="Username" class="input">
+            <input type="password" name="password" id="newPassword" placeholder="Password" class="input">
+            <button type="submit" class="inputButton">Make Account</button>
+          </form>
+      </div>
+
+      <div id="addMarkersContainerDesktop">
+        <div class="logoutButton title">Add New Marker/Walk</div>
+        <div class="logoutButton walk" id="placeWalk">New Walk</div>
+        <form id="saveRouteForm" class="sideForm" style="display: none;">
+          <input type="text" name="name" placeholder="New Walk Name" id="routeName" class="input">
+          <button type="submit" id="savebutton" class="inputButton">Save New Walk</button>
+        </form>
+        <div class="logoutButton bin" id="placeBin">Bin</div>
+        <div class="logoutButton water" id="placeWater">Water Stop</div>
+        <div class="logoutButton hazard" id="placeHazard">Hazard</div>
+      </div>
+
+      <div id="addMarkersContainerMobile">
+        <div class="addMarkerButton"> <img src="images/Icons-park.png" class="mobileIcon" id="placeWalkMob"> </div>
+        <form id="savePathMob">
+          <button type="submit" class="saveWalkMob">Save</button>
+        </form>
+        <div class="addMarkerButton"> <img src="images/Icons-bin.png" class="mobileIcon" id="placeBinMob"> </div>
+        <div class="addMarkerButton"> <img src="images/Icons-water.png" class="mobileIcon" id="placeWaterMob"> </div>
+        <div class="addMarkerButton"> <img src="images/Icons-walking hazard.png" class="mobileIcon" id="placeHazardMob"> </div>
+      </div>
     </div>
-  </div>-->
 
+
+    <!-- Map -->
+    <div class="mapBlock"> 
+      <div id="map"></div> 
+    </div> 
+  </div>
+
+  <script type="text/javascript" src="js/auth.js"></script>
 </body>
 
 </html>

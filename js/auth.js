@@ -9,7 +9,6 @@ auth.onAuthStateChanged(user => {
 		signupParent.style.display = "none"
 		loginParent.style.display = "none"
 		logout.style.display = "block";
-		markersContainer.style.display = "block";
 		fs.collection('users').doc(user.uid).get().then(doc => {
 			document.getElementById('loggedIn').innerHTML = doc.data().username;
 		});
@@ -21,24 +20,30 @@ auth.onAuthStateChanged(user => {
 		signupParent.style.display = "block"
 		loginParent.style.display = "block"
 		logout.style.display = "none";
-		markersContainer.style.display = "none";
+		markersContainerDesktop.style.display = "none";
+		markersContainerMobile.style.display = "none";
 	}
 });
 
 const newuser = document.getElementById('newUserForm');
 const login = document.getElementById('loginForm');
 const loggedIn = document.getElementById('loggedIn');
-const markersContainer = document.getElementById('addMarkersContainer');
+const markersContainerDesktop = document.getElementById('addMarkersContainerDesktop');
+const markersContainerMobile = document.getElementById('addMarkersContainerMobile');
+const lButton = document.getElementById('loginParent');
+const suButton = document.getElementById('signupParent');
 
 //signup
 const signupParent = document.getElementById('signupParent');
 signupParent.addEventListener('click', function() {
 	if(newuser.style.display == "block") {
 		newuser.style.display = "none";
+		lButton.style.display = "block";
 	}
 	else {
 		newuser.style.display = "block";
 		login.style.display = "none";
+		lButton.style.display = "none";
 	}
 	
 
@@ -67,10 +72,12 @@ const loginParent = document.getElementById('loginParent');
 loginParent.addEventListener('click', function() {
 	if(login.style.display == "block") {
 		login.style.display = "none";
+		suButton.style.display = "block";
 	}
 	else {
 		login.style.display = "block";
 		newuser.style.display = "none";
+		suButton.style.display = "none";
 	}
 
 	login.addEventListener('submit', (e) => {
