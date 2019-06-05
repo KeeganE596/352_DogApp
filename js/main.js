@@ -66,7 +66,7 @@ function initializeMap(position) {
           anchor: new google.maps.Point(12, 12) // anchor
       };
       var placeWater = document.getElementById('placeWater');
-      if(window.innerWidth < 900) {
+      if(window.innerWidth < 1100) {
         placeWater = document.getElementById('placeWaterMob');
       }
       placeWater.addEventListener('click', (function() {
@@ -94,7 +94,7 @@ function initializeMap(position) {
           anchor: new google.maps.Point(12, 12) // anchor
       };
       var placeBin = document.getElementById('placeBin');
-      if(window.innerWidth < 900) {
+      if(window.innerWidth < 1100) {
         placeBin = document.getElementById('placeBinMob');
       }
       placeBin.addEventListener('click', (function() {
@@ -122,7 +122,7 @@ function initializeMap(position) {
           anchor: new google.maps.Point(12, 12) // anchor
       };
       var placehazard = document.getElementById('placeHazard');
-      if(window.innerWidth < 900) {
+      if(window.innerWidth < 1100) {
         placeHazard = document.getElementById('placeHazardMob');
       }
       placeHazard.addEventListener('click', (function() {
@@ -143,7 +143,7 @@ function initializeMap(position) {
 
       //draw new route
       var placeWalk = document.getElementById('placeWalk');
-      if(window.innerWidth < 900) {
+      if(window.innerWidth < 1100) {
         placeWalk = document.getElementById('placeWalkMob');
       }
       placeWalk.addEventListener('click', (function() {
@@ -155,7 +155,7 @@ function initializeMap(position) {
             document.getElementById('savePathMob').style.display = "none";
             drawingManager.setDrawingMode(null);
           } else {
-            if(window.innerWidth < 900) {
+            if(window.innerWidth < 1100) {
               document.getElementById('savePathMob').style.display = "block";
             }
             else {
@@ -175,7 +175,7 @@ function initializeMap(position) {
     });
 
     var saveButton = document.getElementById('saveRouteForm');
-    if(window.innerWidth < 900) {
+    if(window.innerWidth < 1100) {
       saveButton = document.getElementById('savePathMob');
     }
     saveButton.addEventListener('submit', (e) => {
@@ -368,4 +368,16 @@ auth.onAuthStateChanged(user => {
   }
 });
 
+function changeAddMarkers() {
+  const desktop = document.getElementById('addMarkersContainerDesktop');
+  const mobile = document.getElementById('addMarkersContainerMobile');
 
+  if(window.innerWidth < 1100) {
+    mobile.style.display = "flex";
+    desktop.style.display = "none";
+  }
+  else {
+    mobile.style.display = "none";
+    desktop.style.display = "flex";
+  }
+}

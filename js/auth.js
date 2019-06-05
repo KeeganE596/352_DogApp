@@ -3,25 +3,38 @@ var outputText = document.getElementById('loginOutput');
 //listen for auth state change
 auth.onAuthStateChanged(user => {
 	if(user) {
-		loggedIn.style.display = "block"
-		login.style.display = "none"
+		loggedIn.style.display = "block";
+		login.style.display = "none";
 		newuser.style.display = "none";
-		signupParent.style.display = "none"
-		loginParent.style.display = "none"
+		signupParent.style.display = "none";
+		loginParent.style.display = "none";
 		logout.style.display = "block";
+		loginStatCont.style.display = "flex";
+
+		if(window.innerWidth < 1100) {
+			markersContainerMobile.style.display = "flex";
+			markersContainerDesktop.style.display = "none";
+		}
+		else {
+			markersContainerDesktop.style.display = "flex";
+			markersContainerMobile.style.display = "none";
+		}
+		
 		fs.collection('users').doc(user.uid).get().then(doc => {
 			document.getElementById('loggedIn').innerHTML = doc.data().username;
 		});
 	}
 	else {
-		loggedIn.style.display = "none"
-		login.style.display = "none"
+		loggedIn.style.display = "none";
+		login.style.display = "none";
 		newuser.style.display = "none";
-		signupParent.style.display = "block"
-		loginParent.style.display = "block"
+		signupParent.style.display = "block";
+		loginParent.style.display = "block";
 		logout.style.display = "none";
 		markersContainerDesktop.style.display = "none";
 		markersContainerMobile.style.display = "none";
+		loginStatCont.style.display = "none";
+		loginCont.style.display = "none";
 	}
 });
 
@@ -32,6 +45,8 @@ const markersContainerDesktop = document.getElementById('addMarkersContainerDesk
 const markersContainerMobile = document.getElementById('addMarkersContainerMobile');
 const lButton = document.getElementById('loginParent');
 const suButton = document.getElementById('signupParent');
+const loginStatCont = document.getElementById('loginStatCont');
+const loginCont = document.getElementById('loginContainer');
 
 //signup
 const signupParent = document.getElementById('signupParent');

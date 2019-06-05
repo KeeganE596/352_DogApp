@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>Tailtreks</title>
+  <!--<link rel="icon" href="images/pawOrangeIcon.png">-->
 
   <!--CSS-->
   <link rel="stylesheet" href="css/style.css">
@@ -36,7 +37,7 @@
   <script type="text/javascript" src="js/main.js"></script>
 </head>
 
-<body onload="getLocation()">
+<body onload="getLocation()" onresize="changeAddMarkers()">
 
 
   <div class="homepage">
@@ -53,9 +54,9 @@
     <div class="sideBlock">
       <img src="images/Logo-Canine-community.png" class="sideLogo">
 
-      <div class="loginStatusContainer">
-        <div class="loggedInButton" id="loggedIn">You Are Logged In</div>
-        <div class="logoutButton" id="signoutForm">LOGOUT</div>
+      <div class="loginStatusContainer bt" id="loginStatCont">
+        <div class="loggedInButton bt" id="loggedIn">You Are Logged In</div>
+        <div class="logoutButton bt" id="signoutForm">LOGOUT</div>
       </div>
 
       <div class="loginContainer">
@@ -71,7 +72,7 @@
             <input type="text" name="email" id="newEmail" placeholder="Email" class="input">
             <input type="text" name="username" id="newUsername" placeholder="Username" class="input">
             <input type="password" name="password" id="newPassword" placeholder="Password" class="input">
-            <button type="submit" class="inputButton">Make Account</button>
+            <button type="submit" class="inputButton">Sign Up</button>
           </form>
       </div>
 
@@ -87,14 +88,14 @@
         <div class="logoutButton hazard" id="placeHazard">Hazard</div>
       </div>
 
-      <div id="addMarkersContainerMobile">
-        <div class="addMarkerButton"> <img src="images/Icons-park.png" class="mobileIcon" id="placeWalkMob"> </div>
-        <form id="savePathMob">
-          <button type="submit" class="saveWalkMob">Save</button>
+      <div id="addMarkersContainerMobile" class="bt">
+        <div class="addMarkerButton bt"> <img src="images/Icons-park.png" class="mobileIcon" id="placeWalkMob"> </div>
+        <form id="savePathMob" style="display: none;">
+          <button type="submit" class="saveWalkMob bt">Save</button>
         </form>
-        <div class="addMarkerButton"> <img src="images/Icons-bin.png" class="mobileIcon" id="placeBinMob"> </div>
-        <div class="addMarkerButton"> <img src="images/Icons-water.png" class="mobileIcon" id="placeWaterMob"> </div>
-        <div class="addMarkerButton"> <img src="images/Icons-walking hazard.png" class="mobileIcon" id="placeHazardMob"> </div>
+        <div class="addMarkerButton bt"> <img src="images/Icons-bin.png" class="mobileIcon" id="placeBinMob"> </div>
+        <div class="addMarkerButton bt"> <img src="images/Icons-water.png" class="mobileIcon" id="placeWaterMob"> </div>
+        <div class="addMarkerButton bt"> <img src="images/Icons-walking hazard.png" class="mobileIcon" id="placeHazardMob"> </div>
       </div>
     </div>
 
