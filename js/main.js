@@ -48,6 +48,22 @@ function initializeMap(position) {
   };
   map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
+  var userIcon = {
+          url: "images/Icons-user.png", // url
+          scaledSize: new google.maps.Size(15, 15), // scaled size
+          origin: new google.maps.Point(0, 0), // origin
+          anchor: new google.maps.Point(12, 12) // anchor
+  };
+
+
+  map = new google.maps.Map(document.getElementById('map'), mapOptions);
+  var marker = new google.maps.Marker({
+    position:myLatLng, 
+    map:map, 
+    title:"You are here!", 
+    icon: userIcon
+});
+
   createKMLWalks();
   getPlaces(latVar, lonVar);
 
