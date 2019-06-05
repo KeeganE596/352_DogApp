@@ -2,7 +2,7 @@ html, body {
 	height: 100%;
    	margin:0;
    	padding:0;
-   	font-family: sans-serif;
+   	font-family: 'Roboto', sans-serif;
    	background: rgb(235, 235, 235);
 }
 
@@ -263,7 +263,7 @@ html, body {
 	}
 
 	.loginStatusContainer {
-		width: 50%;
+		width: 40%;
 		flex-direction: row;
 		justify-content: center;
 		align-items: center;
@@ -278,7 +278,7 @@ html, body {
 		flex-direction: row;
 		justify-content: space-around;
 		align-items: center;
-		width: 60%;
+		width: 40%;
 	}
 
 	.addMarkerButton {

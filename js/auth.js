@@ -10,6 +10,7 @@ auth.onAuthStateChanged(user => {
 		loginParent.style.display = "none";
 		logout.style.display = "block";
 		loginStatCont.style.display = "flex";
+		loginCont.style.display = "none";
 
 		if(window.innerWidth < 1100) {
 			markersContainerMobile.style.display = "flex";
@@ -34,7 +35,7 @@ auth.onAuthStateChanged(user => {
 		markersContainerDesktop.style.display = "none";
 		markersContainerMobile.style.display = "none";
 		loginStatCont.style.display = "none";
-		loginCont.style.display = "none";
+
 	}
 });
 
@@ -46,7 +47,7 @@ const markersContainerMobile = document.getElementById('addMarkersContainerMobil
 const lButton = document.getElementById('loginParent');
 const suButton = document.getElementById('signupParent');
 const loginStatCont = document.getElementById('loginStatCont');
-const loginCont = document.getElementById('loginContainer');
+const loginCont = document.getElementById('loginCont');
 
 //signup
 const signupParent = document.getElementById('signupParent');
