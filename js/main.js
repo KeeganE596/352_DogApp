@@ -49,7 +49,6 @@ function initializeMap(position) {
   map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
   createKMLWalks();
-  //addGeo();
   getPlaces(latVar, lonVar);
 
   //Map drawing initialisation
@@ -61,9 +60,9 @@ function initializeMap(position) {
       //draw water markers
       var waterIcon = {
           url: "images/Icons-water.png", // url
-          scaledSize: new google.maps.Size(25, 25), // scaled size
+          scaledSize: new google.maps.Size(30, 30), // scaled size
           origin: new google.maps.Point(0, 0), // origin
-          anchor: new google.maps.Point(12, 12) // anchor
+          anchor: new google.maps.Point(15, 15) // anchor
       };
       var placeWater = document.getElementById('placeWater');
       if(window.innerWidth < 1100) {
@@ -75,7 +74,6 @@ function initializeMap(position) {
           return function (e) {
             if (toggled) {
                 drawingManager.setDrawingMode(null);
-                e.target.innerHTML = originalHTML;
             } else {
                 drawingManager.setDrawingMode(google.maps.drawing.OverlayType.MARKER);
                 drawingManager.setOptions({markerOptions:
@@ -89,9 +87,9 @@ function initializeMap(position) {
       //draw bin markers
       var binIcon = {
           url: "images/Icons-bin.png", // url
-          scaledSize: new google.maps.Size(25, 25), // scaled size
+          scaledSize: new google.maps.Size(30, 30), // scaled size
           origin: new google.maps.Point(0, 0), // origin
-          anchor: new google.maps.Point(12, 12) // anchor
+          anchor: new google.maps.Point(15, 15) // anchor
       };
       var placeBin = document.getElementById('placeBin');
       if(window.innerWidth < 1100) {
@@ -117,9 +115,9 @@ function initializeMap(position) {
       //draw hazard marker
       var hazardIcon = {
           url: "images/Icons-walking hazard.png", // url
-          scaledSize: new google.maps.Size(25, 25), // scaled size
+          scaledSize: new google.maps.Size(30, 30), // scaled size
           origin: new google.maps.Point(0, 0), // origin
-          anchor: new google.maps.Point(12, 12) // anchor
+          anchor: new google.maps.Point(15, 15) // anchor
       };
       var placehazard = document.getElementById('placeHazard');
       if(window.innerWidth < 1100) {
@@ -168,6 +166,17 @@ function initializeMap(position) {
           toggled = !toggled;
         }
       })());
+
+    google.maps.event.addListener(drawingManager, 'markercomplete', function(marker) {
+      console.log(marker.getIcon().url);
+      var newLocation = (marker.getPosition().lat() + "," + marker.getPosition().lng());
+      var userRef = dbMarkers.child(userID);
+      var newMarkerRef = userRef.child(new Date().getTime());
+      newMarkerRef.set({
+        loc: newLocation,
+        icon: marker.getIcon().url
+      });
+    });
 
     var routeLines = [];
     google.maps.event.addDomListener(drawingManager, 'polylinecomplete', function (polyline) {
@@ -294,6 +303,34 @@ function drawUserWalks() {
   });  
 }
 
+function drawUserMarkers() {
+  dbMarkers.on('value', function(snapshot) {
+    snapshot.forEach((user) => {
+      if(user.key == userID) {
+        user.forEach((data) => {
+          var newicon = {
+              url: data.val().icon, // url
+              scaledSize: new google.maps.Size(30, 30), // scaled size
+              origin: new google.maps.Point(0, 0), // origin
+              anchor: new google.maps.Point(15, 15) // anchor
+          };
+
+          var loc = data.val().loc.split(",");
+          var location = new google.maps.LatLng(loc[0], loc[1]);
+
+          var marker = new google.maps.Marker({
+            position: location,
+            map: map,
+            icon: newicon,
+          });
+
+          userWalks.push(marker);
+        });
+      }
+    });
+  });
+}
+
 var addMarkerListener = function(marker, infoWindow) {
   google.maps.event.addListener(marker, 'click', function() {
     selected = marker;
@@ -358,6 +395,7 @@ auth.onAuthStateChanged(user => {
     userID = u.id;
 
     drawUserWalks();
+    drawUserMarkers();
   }
   else {
     userID = null;

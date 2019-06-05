@@ -28,6 +28,7 @@
     //make references
     const dbParks = firebase.database().ref('parks');
     const dbWalks = firebase.database().ref('walks');
+    const dbMarkers = firebase.database().ref('markers');
     const auth = firebase.auth();
     const fs = firebase.firestore();
   </script>
@@ -56,29 +57,29 @@
       <img src="images/Logo-Canine-community.png" class="sideLogo">
 
       <div class="loginStatusContainer" id="loginStatCont">
-        <div class="loggedInButton" id="loggedIn">Logged In</div>
-        <div class="logoutButton" id="signoutForm">LOGOUT</div>
+        <div class="loggedInButton" id="loggedIn" style="font-weight: 500">Logged In</div>
+        <div class="logoutButton" id="signoutForm">Logout</div>
       </div>
 
       <div class="loginContainer" id="loginCont">
-        <div class="sideButton walk" id="loginParent">LOGIN</div>
+        <div class="sideButton walk" id="loginParent" style="font-weight: 500">LOGIN</div>
           <form id="loginForm" class="sideForm">
             <input type="text" name="email" id="userEmail" placeholder="Email" class="input">
             <input type="password" name="password" id="userPassword" placeholder="Password" class="input">
-            <button type="submit" class="inputButton">Login</button>
+            <button type="submit" class="inputButton">Enter</button>
           </form>
 
-          <div class="sideButton water" id="signupParent">SIGN UP</div>
+          <div class="sideButton water" id="signupParent" style="font-weight: 500">SIGN UP</div>
           <form id="newUserForm" class="sideForm">
             <input type="text" name="email" id="newEmail" placeholder="Email" class="input">
             <input type="text" name="username" id="newUsername" placeholder="Username" class="input">
             <input type="password" name="password" id="newPassword" placeholder="Password" class="input">
-            <button type="submit" class="inputButton">Sign Up</button>
+            <button type="submit" class="inputButton water">Enter</button>
           </form>
       </div>
 
       <div id="addMarkersContainerDesktop">
-        <div class="logoutButton title">Add New Marker/Walk</div>
+        <div class="logoutButton title" style="font-weight: 500">Add New Marker/Walk</div>
         <div class="logoutButton walk" id="placeWalk">New Walk</div>
         <form id="saveRouteForm" class="sideForm" style="display: none;">
           <input type="text" name="name" placeholder="New Walk Name" id="routeName" class="input">
